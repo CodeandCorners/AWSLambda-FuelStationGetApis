@@ -1,11 +1,10 @@
 from dataclasses import dataclass
+from decimal import Decimal
 
 @dataclass
 class RequestParam:
-    longitude: str
-    latitude: str
-    maxAmountOfStationsToReturn: int | None
-    acceptedFuelTypes: list[str] | None
+    longitude: Decimal
+    latitude: Decimal
 
 @dataclass
 class RequestLocationConverted:
