@@ -1,17 +1,12 @@
 # Lambda for querying fuel-stations fuel-prices db
 
 
-## POST /
-- acceptedFuelTypes optional or provided with > 1 list elemnt
+Expects Body from POST event, looks up cheapest b10, closest first, as POC
 
-- maxAmountOfStationsToReturn optional return as many as server deems or limited to select amount. 
-Example request body:
 ```
 {
-    "longitude": "123"
+    "longitude": 123
     "latitude": "123
-    "maxAmountOfStationsToReturn": 1
-    acceptedFuelTypes: ["E5", "E10"]
 }
 
 ```
@@ -38,4 +33,6 @@ pull geohash2 main folder out package and place folder in top level (same level 
 delete the package folder
 
 ## Notable config
-fuelStationGeoHashPrecision = 5 # matching https://github.com/CodeandCorners/AWSLambda-FuelFinderStationStore
+- fuelStationGeoHashPrecision = 5 # matching https://github.com/CodeandCorners/AWSLambda-FuelFinderStationStore
+- GetFuelStationsService maxAmountOfFuelStationsFromDBForPerformance = 200 # No more than 200 fuel stations returned from initial search, this should never happen, we just don't want to risk pagniation in this simple POC
+- limitForFuelStationsOnResponse = 20 #  No more than 20 fuel station responses returned

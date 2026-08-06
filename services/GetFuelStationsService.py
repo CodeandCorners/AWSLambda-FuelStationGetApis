@@ -5,11 +5,10 @@ from models.RequestDataClasses import RequestParam
 from models.FuelStationPriceResponseDataClasses import FuelStationPriceResponse, toFuelStationPriceResponse
 from decimal import Decimal
 from models.FuelPricesDataClasses import FuelPrice
-from utils.FuelPricesHelper import sortClosestFirstAddDistance
+from utils.FuelStationHelper import sortClosestFirstAddDistance
 from utils.FuelPricesHelper import findCheapestB10
 from db.FuelPricesDB import getFuelPrices
 from db.FuelStationsDB import getFuelStations
-
 
 maxAmountOfFuelStationsFromDBForPerformance = 200
 
@@ -32,7 +31,7 @@ def getFuelPricesById(ids: list[str], dynamoDb) -> list[FuelPrice]:
 def getFuelStations(geoHashes: list[str], limit: int, dynamoDb) -> list[FuelStation]:
     return getFuelStations(geoHashes, limit, dynamoDb)
 
-def getResponse(
+def getCheapestB10Response(
     request: RequestParam,
     precision: int,
     maxRecordsToReturn: int,
