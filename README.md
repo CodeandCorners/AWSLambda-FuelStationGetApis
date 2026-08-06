@@ -34,7 +34,11 @@ Expects Body from POST event, looks up cheapest b10, closest first, as POC
 			"Action": [
 				"dynamodb:Query"
 			],
-			"Resource": "ARN of table here"
+			"Resource": [
+				"ARN of table",
+			    "ARN of table/index/geohash-index"
+				
+				]
 		}
 	]
 }```
