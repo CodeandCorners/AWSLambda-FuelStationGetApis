@@ -1,7 +1,7 @@
 from models.FuelStationDataClasses import FuelStationWithDistance
 from models.FuelPricesDataClasses import FuelPrice
 
-def findCheapestB10(
+def findCheapestE10(
     closestStations: list[FuelStationWithDistance],
     fuelPrices: list[FuelPrice],
     limit: int
@@ -19,8 +19,8 @@ def findCheapestB10(
             stationWithDistance.fuelStation.id
         )
 
-        # Ignore stations without B10
-        if fuelPrice and fuelPrice.b10Price is not None:
+        # Ignore stations without E10
+        if fuelPrice and fuelPrice.e10Price is not None:
             candidates.append(
                 (
                     stationWithDistance,
@@ -31,10 +31,10 @@ def findCheapestB10(
     if not candidates:
         return []
 
-    # Cheapest B10 first, closest station wins if prices are equal
+    # Cheapest E10 first, closest station wins if prices are equal
     candidates.sort(
         key=lambda item: (
-            item[1].b10Price,
+            item[1].e10Price,
             item[0].distanceInMiles
         )
     )

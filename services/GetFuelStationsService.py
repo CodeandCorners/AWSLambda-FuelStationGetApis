@@ -6,7 +6,7 @@ from models.FuelStationPriceResponseDataClasses import FuelStationPriceResponse,
 from decimal import Decimal
 from models.FuelPricesDataClasses import FuelPrice
 from utils.FuelStationHelper import sortClosestFirstAddDistance
-from utils.FuelPricesHelper import findCheapestB10
+from utils.FuelPricesHelper import findCheapestE10
 from db.FuelPricesDB import getFuelPrices
 from db.FuelStationsDB import getFuelStations
 
@@ -22,16 +22,15 @@ def convertToGeoHash(longitude: str, latitude: str, precision: int) -> RequestLo
     return RequestLocationConverted(converted, precision)
 
 def returnClosestGeoHashes(requestLocationConverted: RequestLocationConverted) -> list[str]:
-    return geohash2.neighbors(requestLocationConverted.geohash)
-
+    return [requestLocationConverted.geohash]
 
 def getFuelPricesById(ids: list[str], dynamoDb) -> list[FuelPrice]:
     return getFuelPrices(ids,dynamoDb)
 
-def getFuelStations(geoHashes: list[str], limit: int, dynamoDb) -> list[FuelStation]:
+def getFuelStationsByGeoHashes(geoHashes: list[str], limit: int, dynamoDb) -> list[FuelStation]:
     return getFuelStations(geoHashes, limit, dynamoDb)
 
-def getCheapestB10Response(
+def getCheapestE10Response(
     request: RequestParam,
     precision: int,
     maxRecordsToReturn: int,
@@ -43,38 +42,46 @@ def getCheapestB10Response(
         request.latitude,
         precision
     )
+    print(f"convertedRequestToGeoHash {converted}")
 
     closestGeoHashes = returnClosestGeoHashes(
         converted
     )
+    print(f"closestGeoHashes {closestGeoHashes}")
 
-    stations = getFuelStations(
+    stations = getFuelStationsByGeoHashes(
         closestGeoHashes,
         maxAmountOfFuelStationsFromDBForPerformance,
         dynamodb
     )
+    print(f"stationsFoundByGeoHashes {len(stations)}")
 
     closestStations = sortClosestFirstAddDistance(
         Decimal(request.latitude),
         Decimal(request.longitude),
         stations,
     )
+    print(f"closestStations {len(closestStations)}")
 
+    print(closestStations)
     stationIds = [
         station.fuelStation.id
         for station in closestStations
     ]
+    print(f"stationIds {len(stationIds)}")
 
     fuelPrices = getFuelPricesById(
         stationIds,
         dynamodb
     )
-
-    cheapestStations = findCheapestB10(
+    print(f"fuelPrices found by stationids {len(fuelPrices)}")
+    print(fuelPrices)
+    cheapestStations = findCheapestE10(
         closestStations,
         fuelPrices,
         maxRecordsToReturn
     )
+    print(f"cheapestStations {len(cheapestStations)}")
 
     return [
         toFuelStationPriceResponse(

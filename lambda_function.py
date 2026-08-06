@@ -1,7 +1,7 @@
 from models.RequestDataClasses import RequestParam
 import json
 import boto3
-from services.GetFuelStationsService import getCheapestB10Response
+from services.GetFuelStationsService import getCheapestE10Response
 from models.FuelStationPriceResponseDataClasses import FuelStationPriceResponse
 from dataclasses import asdict
 from utils.JsonWritesHelper import DecimalEncoder
@@ -35,7 +35,7 @@ def lambda_handler(event, context):
             'body': json.dumps('Error With request body, look at logs')
         }
     else:
-        response: list[FuelStationPriceResponse] = getCheapestB10Response(params, fuelStationGeoHashPrecision, limitForFuelStationsOnResponse, dynamodb)
+        response: list[FuelStationPriceResponse] = getCheapestE10Response(params, fuelStationGeoHashPrecision, limitForFuelStationsOnResponse, dynamodb)
         return {
             "statusCode": 200,
             "headers": {

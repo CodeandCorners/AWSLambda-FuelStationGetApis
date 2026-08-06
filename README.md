@@ -5,8 +5,8 @@ Expects Body from POST event, looks up cheapest b10, closest first, as POC
 
 ```
 {
-    "longitude": 123
-    "latitude": "123
+    "longitude": 123.2
+    "latitude": "123.1
 }
 
 ```
