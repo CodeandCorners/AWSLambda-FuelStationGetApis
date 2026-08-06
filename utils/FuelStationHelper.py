@@ -2,15 +2,15 @@ from models.FuelStationDataClasses import FuelStation, FuelStationWithDistance
 from decimal import Decimal
 from math import radians, sin, cos, sqrt, atan2
 
- # Calculates the straight-line distance between two latitude/longitude points.
-    # I Take NO credit for this
-    # Haversine formula
+# Calculates the straight-line distance between two latitude/longitude points.
+# I Take NO credit for this
+# Haversine formula
 def calculateDistanceMiles(
     requestLatitude: Decimal,
     requestLongitude: Decimal,
     stationLatitude: Decimal,
     stationLongitude: Decimal
-) -> Decimal:
+    ) -> Decimal:
 
     earthRadiusMiles = Decimal("3958.8")
 
@@ -32,12 +32,12 @@ def calculateDistanceMiles(
     return Decimal(str(earthRadiusMiles * Decimal(str(c))))
 
 
-def sortAndLimitClosestStations(
+def sortClosestFirstAddDistance(
     requestLatitude: Decimal,
     requestLongitude: Decimal,
     fuelStations: list[FuelStation],
-    limit: int | None,
-) -> list[FuelStationWithDistance]:
+    limit: int
+    ) -> list[FuelStationWithDistance]:
 
     # Attach the calculated distance to each station
     stationsWithDistance = [
@@ -53,14 +53,10 @@ def sortAndLimitClosestStations(
         for station in fuelStations
     ]
 
-    # Sort closest first
+   
     stationsWithDistance.sort(
         key=lambda station: station.distanceInMiles
     )
 
-    # Return only the closest N stations
-    if(limit is None):
-        return stationsWithDistance
-    else:
-        return stationsWithDistance[:limit]
+    return stationsWithDistance[:limit]
 

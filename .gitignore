@@ -1,2 +1,4 @@
 /geohash2
 .venv/
+.DS_Store
+lambda.zip
