@@ -10,7 +10,34 @@ Expects Body from POST event, looks up cheapest b10, closest first, as POC
 }
 
 ```
+## Inline policies that need adding to lambda
+```{
+	"Version": "2012-10-17",
+	"Statement": [
+		{
+			"Sid": "FuelFinderPrices",
+			"Effect": "Allow",
+			"Action": [
+				"dynamodb:BatchGetItem"
+			],
+			"Resource": "ARN of table here"
+		}
+	]
+}```
 
+```{
+	"Version": "2012-10-17",
+	"Statement": [
+		{
+			"Sid": "FuelFinderStationsStore",
+			"Effect": "Allow",
+			"Action": [
+				"dynamodb:Query"
+			],
+			"Resource": "ARN of table here"
+		}
+	]
+}```
 ### Geohash dependency
 EITHER
 
