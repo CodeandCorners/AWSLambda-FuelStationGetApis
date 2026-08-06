@@ -8,7 +8,7 @@ from utils.JsonWritesHelper import DecimalEncoder
 
 # DB
 dynamodb = boto3.resource("dynamodb")
-limitForFuelStations = 200
+limitForFuelStationsOnResponse = 20
 
 # Request
 fuelStationGeoHashPrecision: int = 5
@@ -45,7 +45,7 @@ def lambda_handler(event, context):
             'body': json.dumps('Error With request body, look at logs')
         }
     else:
-        response: list[FuelStationPriceResponse] = getCheapestB10Response(params, fuelStationGeoHashPrecision,limitForFuelStations, dynamodb)
+        response: list[FuelStationPriceResponse] = getCheapestB10Response(params, fuelStationGeoHashPrecision, limitForFuelStationsOnResponse, dynamodb)
         return {
             "statusCode": 200,
             "headers": {

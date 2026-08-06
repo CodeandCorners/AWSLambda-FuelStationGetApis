@@ -36,7 +36,6 @@ def sortClosestFirstAddDistance(
     requestLatitude: Decimal,
     requestLongitude: Decimal,
     fuelStations: list[FuelStation],
-    limit: int
     ) -> list[FuelStationWithDistance]:
 
     # Attach the calculated distance to each station
@@ -58,5 +57,5 @@ def sortClosestFirstAddDistance(
         key=lambda station: station.distanceInMiles
     )
 
-    return stationsWithDistance[:limit]
+    return stationsWithDistance
 

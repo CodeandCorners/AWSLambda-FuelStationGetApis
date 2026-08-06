@@ -2,7 +2,7 @@ import geohash2
 from models.RequestDataClasses import RequestLocationConverted
 from models.FuelStationDataClasses import FuelStation
 from models.RequestDataClasses import RequestParam
-from models.FuelStationPriceResponseDataClasses import FuelStationPriceResponse
+from models.FuelStationPriceResponseDataClasses import FuelStationPriceResponse, toFuelStationPriceResponse
 from decimal import Decimal
 from models.FuelPricesDataClasses import FuelPrice
 from utils.FuelPricesHelper import sortClosestFirstAddDistance
@@ -10,6 +10,8 @@ from utils.FuelPricesHelper import findCheapestB10
 from db.FuelPricesDB import getFuelPrices
 from db.FuelStationsDB import getFuelStations
 
+
+maxAmountOfFuelStationsFromDBForPerformance = 200
 
 
 def convertToGeoHash(longitude: str, latitude: str, precision: int) -> RequestLocationConverted:
@@ -33,7 +35,7 @@ def getFuelStations(geoHashes: list[str], limit: int, dynamoDb) -> list[FuelStat
 def getResponse(
     request: RequestParam,
     precision: int,
-    stationLimitFromDbForPerformance: int,
+    maxRecordsToReturn: int,
     dynamodb
 ) -> list[FuelStationPriceResponse]:
 
@@ -49,7 +51,7 @@ def getResponse(
 
     stations = getFuelStations(
         closestGeoHashes,
-        stationLimitFromDbForPerformance,
+        maxAmountOfFuelStationsFromDBForPerformance,
         dynamodb
     )
 
@@ -57,7 +59,6 @@ def getResponse(
         Decimal(request.latitude),
         Decimal(request.longitude),
         stations,
-        stationLimit
     )
 
     stationIds = [
@@ -73,7 +74,7 @@ def getResponse(
     cheapestStations = findCheapestB10(
         closestStations,
         fuelPrices,
-        resultLimit
+        maxRecordsToReturn
     )
 
     return [
