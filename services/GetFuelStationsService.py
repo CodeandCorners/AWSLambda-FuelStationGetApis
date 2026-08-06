@@ -17,9 +17,16 @@ def returnClosestGeoHashes(requestLocationConverted: RequestLocationConverted) -
 
 def sortAndReturnClosestStationsOpen(requestLatitude: Decimal, requestLongitude: Decimal) -> list[FuelStation]:
 
-# def getFuelPricesById(list[str]): list[]
+def getFuelPricesById(ids: list[str]) -> list[]:
 
-def getFuelStations(geoHashes: list[str]): list[FuelStation]
+def getFuelStations(geoHashes: list[str]) -> list[FuelStation]:
 
 def getResponse(request: RequestParam, precision: int, dynamodb) -> list[FuelStationPriceResponse]:
+    converted: RequestLocationConverted = convertToGeoHash(request.longitude, request.latitude, precision)
+    closestGeoHashesToRequest: list[str] = returnClosestGeoHashes(converted)
+    getAllFuelStations: list[FuelStation] = getFuelStations(closestGeoHashesToRequest)
+    idsOfFuelStationsFound = []
+    fuelPricesFound = getFuelPricesById(idsOfFuelStationsFound)
+
+
 
