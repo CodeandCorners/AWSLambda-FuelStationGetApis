@@ -17,23 +17,13 @@ def getBodyParams(event) -> RequestParam | None:
     body = json.loads(event["body"])
     longitude = body.get("longitude")
     latitude = body.get("latitude")
-    maxAmountOfStationsToReturn = body.get("maxAmountOfStationsToReturn")
-    acceptedFuelTypes = body.get("fuelTypes", [])
-
     if(longitude is None or latitude is None):
         print("longitude / latitude Key not provided in body")
         return None
-    elif (longitude == "" or latitude == ""):
-        print("Coordinates provided but empty string")
-        return None
-    elif(acceptedFuelTypes == []):
-        print("fuelTypes provided but empty list, either remove the field or provide a list of accepted fuels")
     else:
         return RequestParam(
             longitude = longitude,
-            latitude = latitude,
-            maxAmountOfStationsToReturn = maxAmountOfStationsToReturn,
-            acceptedFuelTypes = acceptedFuelTypes
+            latitude = latitude
         )
 
 

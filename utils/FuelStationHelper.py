@@ -51,7 +51,6 @@ def sortClosestFirstAddDistance(
         )
         for station in fuelStations
     ]
-
    
     stationsWithDistance.sort(
         key=lambda station: station.distanceInMiles
