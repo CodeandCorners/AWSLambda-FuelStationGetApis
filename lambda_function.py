@@ -26,8 +26,17 @@ def getBodyParams(event) -> RequestParam | None:
             latitude = latitude
         )
 
-
 def lambda_handler(event, context):
+    method = event.get("requestContext", {}).get("http", {}).get("method")
+    if(method != "POST"):
+         return {
+            "statusCode": 405,
+            "headers": {
+                "Content-Type": "application/json"
+            },
+            "body": json.dumps({"message": "Method Not Allowed"})
+        }
+    
     params: RequestParam | None= getBodyParams(event)
     if(params is None):
         return {
