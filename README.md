@@ -19,7 +19,7 @@
 ```
 ```bash
 curl -X POST \
-  "https://abc123.execute-api.eu-west-2.amazonaws.com/fuel-prices" \
+  "https://abc123.execute-api.eu-west-2.amazonaws.com/fuel-finder/cheapest-closest-fuel-by-type" \
   -H "Content-Type: application/json" \
   -H "x-api-key: YOUR_API_KEY" \
   -d '{
@@ -102,7 +102,7 @@ curl -X POST \
 
 ## Recommended HTTP API GATEWAY SETUP
 - create API GATEWAY with integration to this lambda
-- POST rout/fuel-finder/cheapest-closest-fuel-by-type
+- POST route /fuel-finder/cheapest-closest-fuel-by-type
 
 ## Notable config
 - fuelStationGeoHashPrecision = 5 # matching https://github.com/CodeandCorners/AWSLambda-FuelFinderStationStore
