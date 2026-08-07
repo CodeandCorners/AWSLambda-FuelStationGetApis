@@ -18,6 +18,38 @@ AllowedFuelType Enums: "E10" "E5" "B7Standard" "B7Premium" "HVO" "B10"
 	"fuelType" : "E10"
 }
 
+## Response
+200
+"headers": {
+    "Content-Type": "application/json"
+}
+```json
+   [ {
+      "id": "9c1ccd369a0ebf7b0eff579fb299a6bd57189f96ce3f68dc36442s459aeb23791",
+      "nameOfStation": "Station name ABC" # Trading name/ brand name conditional, mandatory
+      "fuelTypeAndPrice": {
+        "fuelType": "E5", # See enums above, mandatory
+        "price": 123.7 # Pence, mandatory
+      },
+      "longitude": -0.1127218, # mandatory
+      "latitude": 51.5730607, #mandatory
+      "distanceInMilesFromRequestLocation": 4.582806881137071 #mandatory 
+    },
+    {
+      "id": "91b7d80827031c795c9b0a6dae7c9af9816fda2b6d090db6f57ca9c9ee322a71",
+      "nameOfStation": "Station Name DEF",
+      "fuelTypeAndPrice": {
+        "fuelType": "E5",
+        "price": 456.9
+      },
+      "longitude": -0.1195,
+      "latitude": 51.5033,
+      "distanceInMilesFromRequestLocation": 0.4557083868743116
+    }
+  ]
+
+```
+
 ```
 ```bash
 curl -X POST \
@@ -94,7 +126,7 @@ curl -X POST \
 
 `pip install pygeohash==3.3.1 \
   --platform manylinux2014_x86_64 \
-  --python-version 311 \
+  --python-version 313 \
   --implementation cp \
   --only-binary=:all: \
   -t package/`

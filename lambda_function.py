@@ -1,4 +1,4 @@
-from models.RequestDataClasses import RequestParam, FuelTypeRequest
+from models.RequestDataClasses import RequestParam, FuelTypeEnum
 import json
 import boto3
 from services.GetFuelStationsService import getResponse
@@ -27,7 +27,7 @@ def getBodyParams(event) -> RequestParam | None:
     longitude = body.get("longitude")
     latitude = body.get("latitude")
     fuelType: str | None = body.get("fuelType")
-    fuelTypeParsedToEnum: FuelTypeRequest = FuelTypeRequest(fuelType)
+    fuelTypeParsedToEnum: FuelTypeEnum = FuelTypeEnum(fuelType)
     if(longitude is None or latitude is None or fuelType is None):
         print("longitude / latitude / fuelType Key not provided in body")
         return None

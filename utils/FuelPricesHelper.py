@@ -5,7 +5,7 @@ from models.RequestDataClasses import FuelTypeEnum
 def findCheapest(
     closestStations: list[FuelStationWithDistance],
     fuelPrices: list[FuelPrice],
-    fuelType: FuelTypeEnum,
+    fuelType: FuelTypeEnum.value,
     limit: int
 ) -> list[tuple[FuelStationWithDistance, FuelPriceFound]]:
     pricesById = {
@@ -22,11 +22,14 @@ def findCheapest(
             case FuelTypeEnum.E10:
                 if fuelPrice and fuelPrice.e10Price is not None:
                     candidates.append(
-                                     (
-                                         stationWithDistance,
-                                         fuelPrice
-                                     )
-                                 )
+                                            (
+                                                     stationWithDistance,
+                                                     FuelPriceFound(fuelPrice.id,
+                                                                    FuelTypeEnum.E10,
+                                                                    fuelPrice.e10Price
+                                                                    )
+                                                                    )
+                                             )
             case FuelTypeEnum.E5:
                 if fuelPrice and fuelPrice.e5Price is not None:
                     candidates.append(

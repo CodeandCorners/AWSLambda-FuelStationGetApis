@@ -1,10 +1,10 @@
 import pygeohash
-from models.RequestDataClasses import RequestLocationConverted, FuelTypeRequest
+from models.RequestDataClasses import RequestLocationConverted
 from models.FuelStationDataClasses import FuelStation, FuelStationWithDistance
 from models.RequestDataClasses import RequestParam
 from models.FuelStationPriceResponseDataClasses import FuelStationPriceResponse, toFuelStationPriceResponse
 from decimal import Decimal
-from models.FuelPricesDataClasses import FuelPrice
+from models.FuelPricesDataClasses import FuelPrice, FuelPriceFound
 from utils.FuelStationHelper import sortClosestFirstAddDistance
 from utils.FuelPricesHelper import findCheapest
 from db.FuelPricesDB import getFuelPrices
@@ -90,7 +90,7 @@ def getResponse(
     )
     print(f"fuelPrices found by stationids {len(fuelPrices)}")
 
-    cheapestStations: list[tuple[FuelStationWithDistance, FuelPrice]] = findCheapest(
+    cheapestStations: list[tuple[FuelStationWithDistance, FuelPriceFound]] = findCheapest(
         closestStations,
         fuelPrices,
         request.fuelType,

@@ -8,7 +8,6 @@ class FuelTypeAndPrice:
     fuelType: str
     price: Decimal
 
-
 @dataclass
 class FuelStationPriceResponse:
     # Although not strictly needed, and maps directly to GOVUK ID instead of pigeon pair db id,
@@ -32,7 +31,7 @@ def toFuelStationPriceResponse(
         id=station.id,
         nameOfStation=station.name,
         fuelTypeAndPrice=FuelTypeAndPrice(
-            fuelType=fuelPriceFound.fuelType,
+            fuelType=fuelPriceFound.fuelType.value,
             price=fuelPriceFound.fuelPrice
         ),
         longitude=station.location.longitude,
