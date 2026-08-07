@@ -101,8 +101,7 @@ def getResponse(
     return [
         toFuelStationPriceResponse(
             station,
-            price,
-            request.fuelType
+            price
         )
         for station, price in cheapestStations
     ]
