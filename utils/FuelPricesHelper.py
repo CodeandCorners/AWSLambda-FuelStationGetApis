@@ -2,7 +2,7 @@ from models.FuelStationDataClasses import FuelStationWithDistance
 from models.FuelPricesDataClasses import FuelPrice
 from models.RequestDataClasses import FuelTypeRequest
 
-def findCheapestE10(
+def findCheapest(
     closestStations: list[FuelStationWithDistance],
     fuelPrices: list[FuelPrice],
     fuelType: FuelTypeRequest,
