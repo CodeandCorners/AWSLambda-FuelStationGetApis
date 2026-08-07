@@ -1,13 +1,13 @@
 from models.FuelStationDataClasses import FuelStationWithDistance
-from models.FuelPricesDataClasses import FuelPrice
-from models.RequestDataClasses import FuelTypeRequest
+from models.FuelPricesDataClasses import FuelPrice, FuelPriceFound
+from models.RequestDataClasses import FuelTypeEnum
 
 def findCheapest(
     closestStations: list[FuelStationWithDistance],
     fuelPrices: list[FuelPrice],
-    fuelType: FuelTypeRequest,
+    fuelType: FuelTypeEnum,
     limit: int
-) -> list[tuple[FuelStationWithDistance, FuelPrice]]:
+) -> list[tuple[FuelStationWithDistance, FuelPriceFound]]:
     pricesById = {
         price.id: price
         for price in fuelPrices
@@ -19,96 +19,78 @@ def findCheapest(
             stationWithDistance.fuelStation.id
         )
         match fuelType:
-            case FuelTypeRequest.E10:
-                print("HERE 4")
+            case FuelTypeEnum.E10:
                 if fuelPrice and fuelPrice.e10Price is not None:
-                    print("HERE 5")
                     candidates.append(
                                      (
                                          stationWithDistance,
                                          fuelPrice
                                      )
                                  )
-            case FuelTypeRequest.E5:
+            case FuelTypeEnum.E5:
                 if fuelPrice and fuelPrice.e5Price is not None:
                     candidates.append(
                                             (
                                                      stationWithDistance,
-                                                     fuelPrice
-                                                 )
+                                                     FuelPriceFound(fuelPrice.id,
+                                                                    FuelTypeEnum.E5,
+                                                                    fuelPrice.e5Price
+                                                                    )
+                                            )
                                              )
-            case FuelTypeRequest.B7Standard:
+            case FuelTypeEnum.B7Standard:
                 if fuelPrice and fuelPrice.b7StandardPrice is not None:
                     candidates.append(
                                                  (
                                                      stationWithDistance,
-                                                     fuelPrice
-                                                 )
+                                                     FuelPriceFound(fuelPrice.id,
+                                                                    FuelTypeEnum.B7Standard,
+                                                                    fuelPrice.b7StandardPrice
+                                                                    )
                                              )
-            case FuelTypeRequest.B10:
+                    )
+            case FuelTypeEnum.B10:
                 if fuelPrice and fuelPrice.b10Price is not None:
                     candidates.append(
                                                  (
                                                      stationWithDistance,
-                                                     fuelPrice
-                                                 )
+                                                     FuelPriceFound(fuelPrice.id,
+                                                                    FuelTypeEnum.B10,
+                                                                    fuelPrice.b10Price
+                                                                    )
                                              )
-            case FuelTypeRequest.B7Premium:
+                    )
+            case FuelTypeEnum.B7Premium:
                 if fuelPrice and fuelPrice.b7PremiumPrice is not None:
                     candidates.append(
                                                  (
                                                      stationWithDistance,
-                                                     fuelPrice
-                                                 )
+                                                     FuelPriceFound(fuelPrice.id,
+                                                                    FuelTypeEnum.B7Premium,
+                                                                    fuelPrice.b7PremiumPrice
+                                                                    )
                                              )
-            case FuelTypeRequest.HVO:
+                    )
+            case FuelTypeEnum.HVO:
                 if fuelPrice and fuelPrice.hvoPrice is not None:
                     candidates.append(
-                                                             (
-                                                                 stationWithDistance,
-                                                                 fuelPrice
-                                                             )
-                                                         )
+                                                 (
+                                                     stationWithDistance,
+                                                     FuelPriceFound(fuelPrice.id,
+                                                                    FuelTypeEnum.HVO,
+                                                                    fuelPrice.hvoPrice
+                                                                    )
+                                             )
+                    )
                 
     if not candidates:
         return []
 
-    match fuelType:
-        case FuelTypeRequest.E10:
-            candidates.sort(
+    candidates.sort(
                         key=lambda item: (
-                        item[1].e10Price,
+                        item[1].fuelPrice,
                         item[0].distanceInMiles
             ))
-        case FuelTypeRequest.E5:
-            candidates.sort(
-                        key=lambda item: (
-                        item[1].e5Price,
-                        item[0].distanceInMiles
-            ))      
-        case FuelTypeRequest.B7Standard:
-            candidates.sort(
-                        key=lambda item: (
-                        item[1].b7StandardPrice,
-                        item[0].distanceInMiles
-            ))
-        case FuelTypeRequest.B7Premium:
-            candidates.sort(
-                        key=lambda item: (
-                        item[1].b7PremiumPrice,
-                        item[0].distanceInMiles
-            ))
-        case FuelTypeRequest.B10:
-            candidates.sort(
-                        key=lambda item: (
-                        item[1].b10Price,
-                        item[0].distanceInMiles
-            ))
-        case FuelTypeRequest.HVO:
-            candidates.sort(
-                        key=lambda item: (
-                        item[1].hvoPrice,
-                        item[0].distanceInMiles
-            ))
+    
     return candidates[:limit]
     
