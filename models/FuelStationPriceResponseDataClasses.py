@@ -32,7 +32,7 @@ def toFuelStationPriceResponse(
         id=station.id,
         nameOfStation=station.name,
         fuelTypeAndPrice=FuelTypeAndPrice(
-            fuelType=fuelPriceFound.fuelType,
+            fuelType=fuelPriceFound.fuelType.value,
             price=fuelPriceFound.fuelPrice
         ),
         longitude=station.location.longitude,
