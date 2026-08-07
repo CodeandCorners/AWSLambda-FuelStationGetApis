@@ -91,7 +91,6 @@ def getCheapestE10Response(
     )
     print(f"closestStations {len(closestStations)}")
 
-    print(closestStations)
     stationIds = [
         station.fuelStation.id
         for station in closestStations
@@ -103,10 +102,11 @@ def getCheapestE10Response(
         dynamodb
     )
     print(f"fuelPrices found by stationids {len(fuelPrices)}")
-    print(fuelPrices)
-    cheapestStations = findCheapestE10(
+
+    cheapestStations = findCheapest(
         closestStations,
         fuelPrices,
+        request.fuelType
         maxRecordsToReturn
     )
     print(f"cheapestStations {len(cheapestStations)}")
@@ -114,7 +114,8 @@ def getCheapestE10Response(
     return [
         toFuelStationPriceResponse(
             station,
-            price
+            price,
+            request.fuelType
         )
         for station, price in cheapestStations
     ]
