@@ -8,7 +8,7 @@
 - Expects body from API Gateway POST event. 
 - Expected x-api-key set with configured value
 
-AllowedFuelType Enums: "E10" "E5" "B7Standard" "B7Premium" "HVO"
+AllowedFuelType Enums: "E10" "E5" "B7Standard" "B7Premium" "HVO" "B10"
 
 - Example body:
 ```
