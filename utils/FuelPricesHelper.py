@@ -5,7 +5,7 @@ from models.RequestDataClasses import FuelTypeEnum
 def findCheapest(
     closestStations: list[FuelStationWithDistance],
     fuelPrices: list[FuelPrice],
-    fuelType: FuelTypeEnum,
+    fuelType: FuelTypeEnum.value,
     limit: int
 ) -> list[tuple[FuelStationWithDistance, FuelPriceFound]]:
     pricesById = {

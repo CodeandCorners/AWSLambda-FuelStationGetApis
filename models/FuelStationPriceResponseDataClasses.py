@@ -8,7 +8,6 @@ class FuelTypeAndPrice:
     fuelType: str
     price: Decimal
 
-
 @dataclass
 class FuelStationPriceResponse:
     # Although not strictly needed, and maps directly to GOVUK ID instead of pigeon pair db id,
