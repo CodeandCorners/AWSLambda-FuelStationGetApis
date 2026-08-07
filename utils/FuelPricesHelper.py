@@ -24,7 +24,7 @@ def findCheapest(
         match fuelType:
             case FuelTypeRequest.E10:
                 if fuelPrice and fuelPrice.e10Price is not None:
-                    return candidates.append(
+                    candidates.append(
                                      (
                                          stationWithDistance,
                                          fuelPrice
@@ -32,7 +32,7 @@ def findCheapest(
                                  )
             case FuelTypeRequest.E5:
                 if fuelPrice and fuelPrice.e5Price is not None:
-                    return candidates.append(
+                    candidates.append(
                                             (
                                                      stationWithDistance,
                                                      fuelPrice
@@ -40,7 +40,7 @@ def findCheapest(
                                              )
             case FuelTypeRequest.B7Standard:
                 if fuelPrice and fuelPrice.b7StandardPrice is not None:
-                    return candidates.append(
+                    candidates.append(
                                                  (
                                                      stationWithDistance,
                                                      fuelPrice
@@ -48,7 +48,7 @@ def findCheapest(
                                              )
             case FuelTypeRequest.B10:
                 if fuelPrice and fuelPrice.b10Price is not None:
-                    return candidates.append(
+                    candidates.append(
                                                  (
                                                      stationWithDistance,
                                                      fuelPrice
@@ -56,7 +56,7 @@ def findCheapest(
                                              )
             case FuelTypeRequest.B7Premium:
                 if fuelPrice and fuelPrice.b7PremiumPrice is not None:
-                    return candidates.append(
+                    candidates.append(
                                                  (
                                                      stationWithDistance,
                                                      fuelPrice
@@ -64,7 +64,7 @@ def findCheapest(
                                              )
             case FuelTypeRequest.HVO:
                 if fuelPrice and fuelPrice.hvoPrice is not None:
-                    return candidates.append(
+                    candidates.append(
                                                              (
                                                                  stationWithDistance,
                                                                  fuelPrice

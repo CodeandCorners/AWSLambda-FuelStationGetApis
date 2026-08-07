@@ -78,19 +78,19 @@ def getResponse(
     )
     print(f"closestStations {len(closestStations)}")
 
-    stationIds = [
+    stationIds: list[str] = [
         station.fuelStation.id
         for station in closestStations
     ]
     print(f"stationIds {len(stationIds)}")
 
-    fuelPrices = getFuelPricesById(
+    fuelPrices: list[FuelPrice] = getFuelPricesById(
         stationIds,
         dynamodb
     )
     print(f"fuelPrices found by stationids {len(fuelPrices)}")
 
-    cheapestStations: list[tuple[FuelStationWithDistance, FuelPrice]]: = findCheapest(
+    cheapestStations: list[tuple[FuelStationWithDistance, FuelPrice]] = findCheapest(
         closestStations,
         fuelPrices,
         request.fuelType,
