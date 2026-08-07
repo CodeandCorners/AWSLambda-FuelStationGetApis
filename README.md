@@ -8,12 +8,14 @@
 - Expects body from API Gateway POST event. 
 - Expected x-api-key set with configured value
 
+AllowedFuelType Enums: "E10" "E5" "B7Standard" "B7Premium" "HVO"
 
 - Example body:
 ```
 {
     "longitude": 123.2
-    "latitude": "123.1
+    "latitude": 123.1
+	"fuelType" : "E10"
 }
 
 ```
@@ -24,7 +26,8 @@ curl -X POST \
   -H "x-api-key: YOUR_API_KEY" \
   -d '{
     "latitude": 51.5074,
-    "longitude": -0.1278
+    "longitude": -0.1278,
+	"fuelType" : "E10"
   }'
 ```
 ## Lambda Setup

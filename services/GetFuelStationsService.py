@@ -1,5 +1,5 @@
 import pygeohash
-from models.RequestDataClasses import RequestLocationConverted
+from models.RequestDataClasses import RequestLocationConverted, FuelTypeRequest
 from models.FuelStationDataClasses import FuelStation
 from models.RequestDataClasses import RequestParam
 from models.FuelStationPriceResponseDataClasses import FuelStationPriceResponse, toFuelStationPriceResponse
@@ -44,6 +44,19 @@ def getFuelPricesById(ids: list[str], dynamoDb) -> list[FuelPrice]:
 
 def getFuelStationsByGeoHashes(geoHashes: list[str], limit: int, dynamoDb) -> list[FuelStation]:
     return getFuelStations(geoHashes, limit, dynamoDb)
+
+def getResponse(
+    request: RequestParam,
+    precision: int,
+    maxRecordsToReturn: int,
+    dynamodb   
+) -> list[FuelStationPriceResponse]:
+    match request.fuelType:
+        case FuelTypeRequest.E10:
+            print("User provided E10, Getting Cheapest Fuel")
+            return getCheapestE10Response(request,precision,maxRecordsToReturn,dynamodb)
+        case _:
+            raise ValueError(f"Unsupported Fuel Type By API: {request.fuelType}")
 
 def getCheapestE10Response(
     request: RequestParam,
