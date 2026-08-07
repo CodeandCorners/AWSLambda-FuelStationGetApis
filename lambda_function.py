@@ -1,7 +1,7 @@
-from models.RequestDataClasses import RequestParam
+from models.RequestDataClasses import RequestParam, FuelTypeRequest
 import json
 import boto3
-from services.GetFuelStationsService import getCheapestE10Response
+from services.GetFuelStationsService import getResponse
 from models.FuelStationPriceResponseDataClasses import FuelStationPriceResponse
 from dataclasses import asdict
 from utils.JsonWritesHelper import DecimalEncoder
@@ -26,14 +26,18 @@ def getBodyParams(event) -> RequestParam | None:
     body = json.loads(event["body"])
     longitude = body.get("longitude")
     latitude = body.get("latitude")
-    if(longitude is None or latitude is None):
-        print("longitude / latitude Key not provided in body")
+    fuelType: str | None = body.get("fuelType")
+    fuelTypeParsedToEnum: FuelTypeRequest = FuelTypeRequest(fuelType)
+    if(longitude is None or latitude is None or fuelType is None):
+        print("longitude / latitude / fuelType Key not provided in body")
         return None
+
     else:
         return RequestParam(
             longitude = longitude,
-            latitude = latitude
-        )
+            latitude = latitude,
+            fuelType = fuelTypeParsedToEnum
+            )
 
 def lambda_handler(event, context):
     headers = event.get("headers", {})
@@ -54,14 +58,14 @@ def lambda_handler(event, context):
             "body": json.dumps({"message": "Method Not Allowed"})
         }
     
-    params: RequestParam | None= getBodyParams(event)
+    params: RequestParam | None = getBodyParams(event)
     if(params is None):
         return {
              'statusCode': 400,
             'body': json.dumps('Error With request body, look at logs')
         }
     else:
-        response: list[FuelStationPriceResponse] = getCheapestE10Response(params, fuelStationGeoHashPrecision, limitForFuelStationsOnResponse, dynamodb)
+        response: list[FuelStationPriceResponse] = getResponse(params, fuelStationGeoHashPrecision, limitForFuelStationsOnResponse, dynamodb)
         return {
             "statusCode": 200,
             "headers": {

@@ -1,5 +1,5 @@
 import pygeohash
-from models.RequestDataClasses import RequestLocationConverted
+from models.RequestDataClasses import RequestLocationConverted, FuelTypeRequest
 from models.FuelStationDataClasses import FuelStation
 from models.RequestDataClasses import RequestParam
 from models.FuelStationPriceResponseDataClasses import FuelStationPriceResponse, toFuelStationPriceResponse
@@ -45,7 +45,7 @@ def getFuelPricesById(ids: list[str], dynamoDb) -> list[FuelPrice]:
 def getFuelStationsByGeoHashes(geoHashes: list[str], limit: int, dynamoDb) -> list[FuelStation]:
     return getFuelStations(geoHashes, limit, dynamoDb)
 
-def getCheapestE10Response(
+def getResponse(
     request: RequestParam,
     precision: int,
     maxRecordsToReturn: int,
@@ -78,7 +78,6 @@ def getCheapestE10Response(
     )
     print(f"closestStations {len(closestStations)}")
 
-    print(closestStations)
     stationIds = [
         station.fuelStation.id
         for station in closestStations
@@ -90,10 +89,11 @@ def getCheapestE10Response(
         dynamodb
     )
     print(f"fuelPrices found by stationids {len(fuelPrices)}")
-    print(fuelPrices)
-    cheapestStations = findCheapestE10(
+
+    cheapestStations = findCheapest(
         closestStations,
         fuelPrices,
+        request.fuelType
         maxRecordsToReturn
     )
     print(f"cheapestStations {len(cheapestStations)}")
@@ -101,7 +101,8 @@ def getCheapestE10Response(
     return [
         toFuelStationPriceResponse(
             station,
-            price
+            price,
+            request.fuelType
         )
         for station, price in cheapestStations
     ]
