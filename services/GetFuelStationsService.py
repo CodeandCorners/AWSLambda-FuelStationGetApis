@@ -49,19 +49,6 @@ def getResponse(
     request: RequestParam,
     precision: int,
     maxRecordsToReturn: int,
-    dynamodb   
-) -> list[FuelStationPriceResponse]:
-    match request.fuelType:
-        case FuelTypeRequest.E10:
-            print("User provided E10, Getting Cheapest Fuel")
-            return getCheapestE10Response(request,precision,maxRecordsToReturn,dynamodb)
-        case _:
-            raise ValueError(f"Unsupported Fuel Type By API: {request.fuelType}")
-
-def getCheapestE10Response(
-    request: RequestParam,
-    precision: int,
-    maxRecordsToReturn: int,
     dynamodb
 ) -> list[FuelStationPriceResponse]:
 

@@ -31,6 +31,7 @@ def getBodyParams(event) -> RequestParam | None:
     if(longitude is None or latitude is None or fuelType is None):
         print("longitude / latitude / fuelType Key not provided in body")
         return None
+
     else:
         return RequestParam(
             longitude = longitude,
