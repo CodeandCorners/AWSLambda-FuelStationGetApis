@@ -94,7 +94,7 @@ curl -X POST \
 
 `pip install pygeohash==3.3.1 \
   --platform manylinux2014_x86_64 \
-  --python-version 311 \
+  --python-version 313 \
   --implementation cp \
   --only-binary=:all: \
   -t package/`

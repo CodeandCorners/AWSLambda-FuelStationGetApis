@@ -24,7 +24,7 @@ def findCheapest(
                     candidates.append(
                                      (
                                          stationWithDistance,
-                                         fuelPrice
+                                         fuelPrice.e10Price
                                      )
                                  )
             case FuelTypeEnum.E5:
