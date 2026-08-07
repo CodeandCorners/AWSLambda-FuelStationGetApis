@@ -8,10 +8,19 @@ from utils.JsonWritesHelper import DecimalEncoder
 
 # DB
 dynamodb = boto3.resource("dynamodb")
+secrets = boto3.client("secretsmanager")
 limitForFuelStationsOnResponse = 20
 
 # Request
 fuelStationGeoHashPrecision: int = 5
+
+def getSecret() -> dict[str, str]:
+    response = secrets.get_secret_value(
+        SecretId="fuelFinderResultsApiKey"
+    )
+
+    return json.loads(response["SecretString"])
+
 
 def getBodyParams(event) -> RequestParam | None:
     body = json.loads(event["body"])
@@ -27,6 +36,14 @@ def getBodyParams(event) -> RequestParam | None:
         )
 
 def lambda_handler(event, context):
+    headers = event.get("headers", {})
+    apiKey = getSecret()["x-api-key"]
+    if headers.get("x-api-key") != apiKey:
+        return {
+            "statusCode": 401,
+            "body": "Unauthorized invalid api key"
+            }
+
     method = event.get("requestContext", {}).get("http", {}).get("method")
     if(method != "POST"):
          return {

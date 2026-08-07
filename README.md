@@ -5,6 +5,7 @@
 - and then return < 20 events to the user ordered cheapest  THEN closest
 
 Expects body from API Gateway POST event. 
+Expected x-api-key set with configured value
 
 
 Example body:
@@ -16,7 +17,8 @@ Example body:
 
 ```
 ## Lambda Setup
--python 313 runtime not 315 as pygeohash has issues
+- python 313 runtime not 315 as pygeohash has issues
+- fuelFinderResultsApiKey Secret created with x-api-key
 
 ## Inline policies that need adding to lambda 
 
@@ -73,6 +75,10 @@ Example body:
 - pull pygeohash main folder out package and place folder in top level (same level as lambda_function.py)
 - delete the package folder
 
+
+## Recommended HTTP API GATEWAY SETUP
+- create API GATEWAY with integration to this lambda
+- POST rout/fuel-finder/cheapest-closest-fuel-by-type
 
 ## Notable config
 - fuelStationGeoHashPrecision = 5 # matching https://github.com/CodeandCorners/AWSLambda-FuelFinderStationStore
