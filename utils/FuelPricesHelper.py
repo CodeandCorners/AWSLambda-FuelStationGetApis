@@ -8,19 +8,16 @@ def findCheapest(
     fuelType: FuelTypeRequest,
     limit: int
 ) -> list[tuple[FuelStationWithDistance, FuelPrice]]:
-    print("HERE 1")
     pricesById = {
         price.id: price
         for price in fuelPrices
     }
 
     candidates = []
-    print("HERE 2")
     for stationWithDistance in closestStations:
         fuelPrice = pricesById.get(
             stationWithDistance.fuelStation.id
         )
-        print("HERE 3")
         match fuelType:
             case FuelTypeRequest.E10:
                 print("HERE 4")
@@ -75,11 +72,9 @@ def findCheapest(
                 
     if not candidates:
         return []
-    print("HERE 6")
 
     match fuelType:
         case FuelTypeRequest.E10:
-            print("HERE 7")
             candidates.sort(
                         key=lambda item: (
                         item[1].e10Price,

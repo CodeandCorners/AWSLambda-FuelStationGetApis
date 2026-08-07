@@ -2,6 +2,7 @@ from dataclasses import dataclass
 from decimal import Decimal
 from models.FuelPricesDataClasses import FuelPrice
 from models.FuelStationDataClasses import FuelStationWithDistance
+from models.RequestDataClasses import FuelTypeRequest
 
 @dataclass
 class FuelTypeAndPrice:
@@ -21,9 +22,11 @@ class FuelStationPriceResponse:
     # This "could" be a separate API in an ideal world
     distanceInMilesFromRequestLocation: Decimal
 
+# Finish this, 
 def toFuelStationPriceResponse(
     stationWithDistance: FuelStationWithDistance,
-    fuelPrice: FuelPrice) -> FuelStationPriceResponse:
+    fuelPrice: FuelPrice,
+    fuelType: FuelTypeRequest) -> FuelStationPriceResponse:
 
     station = stationWithDistance.fuelStation
 
