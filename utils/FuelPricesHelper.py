@@ -8,22 +8,24 @@ def findCheapest(
     fuelType: FuelTypeRequest,
     limit: int
 ) -> list[tuple[FuelStationWithDistance, FuelPrice]]:
-
+    print("HERE 1")
     pricesById = {
         price.id: price
         for price in fuelPrices
     }
 
     candidates = []
-
+    print("HERE 2")
     for stationWithDistance in closestStations:
         fuelPrice = pricesById.get(
             stationWithDistance.fuelStation.id
         )
-
+        print("HERE 3")
         match fuelType:
             case FuelTypeRequest.E10:
+                print("HERE 4")
                 if fuelPrice and fuelPrice.e10Price is not None:
+                    print("HERE 5")
                     candidates.append(
                                      (
                                          stationWithDistance,
@@ -73,42 +75,45 @@ def findCheapest(
                 
     if not candidates:
         return []
+    print("HERE 6")
 
     match fuelType:
         case FuelTypeRequest.E10:
-            return candidates.sort(
+            print("HERE 7")
+            candidates.sort(
                         key=lambda item: (
                         item[1].e10Price,
                         item[0].distanceInMiles
-            ))[:limit]
+            ))
         case FuelTypeRequest.E5:
-            return candidates.sort(
+            candidates.sort(
                         key=lambda item: (
                         item[1].e5Price,
                         item[0].distanceInMiles
-            ))[:limit]        
+            ))      
         case FuelTypeRequest.B7Standard:
-            return candidates.sort(
+            candidates.sort(
                         key=lambda item: (
                         item[1].b7StandardPrice,
                         item[0].distanceInMiles
-            ))[:limit]
+            ))
         case FuelTypeRequest.B7Premium:
-            return candidates.sort(
+            candidates.sort(
                         key=lambda item: (
                         item[1].b7PremiumPrice,
                         item[0].distanceInMiles
-            ))[:limit]
+            ))
         case FuelTypeRequest.B10:
-            return candidates.sort(
+            candidates.sort(
                         key=lambda item: (
                         item[1].b10Price,
                         item[0].distanceInMiles
-            ))[:limit]
+            ))
         case FuelTypeRequest.HVO:
-            return candidates.sort(
+            candidates.sort(
                         key=lambda item: (
                         item[1].hvoPrice,
                         item[0].distanceInMiles
-            ))[:limit]
+            ))
+    return candidates[:limit]
     

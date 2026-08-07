@@ -96,8 +96,9 @@ def getResponse(
         request.fuelType,
         maxRecordsToReturn
     )
+    print("HERE 8")
     print(f"cheapestStations {len(cheapestStations)}")
-
+    print("HERE 9")
     return [
         toFuelStationPriceResponse(
             station,
