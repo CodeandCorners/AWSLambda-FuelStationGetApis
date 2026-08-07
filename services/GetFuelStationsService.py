@@ -1,4 +1,4 @@
-import geohash2
+import pygeohash
 from models.RequestDataClasses import RequestLocationConverted
 from models.FuelStationDataClasses import FuelStation
 from models.RequestDataClasses import RequestParam
@@ -14,7 +14,7 @@ maxAmountOfFuelStationsFromDBForPerformance = 200
 
 
 def convertToGeoHash(longitude: str, latitude: str, precision: int) -> RequestLocationConverted:
-    converted = geohash2.encode(
+    converted = pygeohash.encode(
                 float(latitude),
                 float(longitude),
                 precision=precision
@@ -22,8 +22,23 @@ def convertToGeoHash(longitude: str, latitude: str, precision: int) -> RequestLo
     return RequestLocationConverted(converted, precision)
 
 def returnClosestGeoHashes(requestLocationConverted: RequestLocationConverted) -> list[str]:
-    return [requestLocationConverted.geohash]
+    gh = requestLocationConverted.geohash
 
+    top = pygeohash.get_adjacent(gh, "top")
+    bottom = pygeohash.get_adjacent(gh, "bottom")
+    left = pygeohash.get_adjacent(gh, "left")
+    right = pygeohash.get_adjacent(gh, "right")
+
+    return [
+        top,
+        bottom,
+        left,
+        right,
+        pygeohash.get_adjacent(top, "left"),
+        pygeohash.get_adjacent(top, "right"),
+        pygeohash.get_adjacent(bottom, "left"),
+        pygeohash.get_adjacent(bottom, "right"),
+    ]
 def getFuelPricesById(ids: list[str], dynamoDb) -> list[FuelPrice]:
     return getFuelPrices(ids,dynamoDb)
 

@@ -1,1 +1,1 @@
-geohash2==1.1
+ pygeohash==3.3.1
