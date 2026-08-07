@@ -22,11 +22,14 @@ def findCheapest(
             case FuelTypeEnum.E10:
                 if fuelPrice and fuelPrice.e10Price is not None:
                     candidates.append(
-                                     (
-                                         stationWithDistance,
-                                         fuelPrice.e10Price
-                                     )
-                                 )
+                                            (
+                                                     stationWithDistance,
+                                                     FuelPriceFound(fuelPrice.id,
+                                                                    FuelTypeEnum.E10,
+                                                                    fuelPrice.e10Price
+                                                                    )
+                                                                    )
+                                             )
             case FuelTypeEnum.E5:
                 if fuelPrice and fuelPrice.e5Price is not None:
                     candidates.append(
