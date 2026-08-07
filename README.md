@@ -1,7 +1,7 @@
 # Lambda for querying fuel-stations fuel-prices db
 
 
-Expects Body from POST event, looks up cheapest b10, closest first, as POC
+Expects Body from POST event, looks up cheapest e10, closest first, as POC
 
 ```
 {
@@ -11,6 +11,7 @@ Expects Body from POST event, looks up cheapest b10, closest first, as POC
 
 ```
 ## Inline policies that need adding to lambda
+
 ```{
 	"Version": "2012-10-17",
 	"Statement": [
@@ -43,25 +44,24 @@ Expects Body from POST event, looks up cheapest b10, closest first, as POC
 	]
 }```
 ### Geohash dependency
-EITHER
 
-**geohash2 dependency for local testing / asserting**
+**pygeohash dependency for lambda**
+`python3 -m venv .venv`
 
-python3 -m venv .venv
+`source .venv/bin/activate`
 
-source .venv/bin/activate
+`pip install pygeohash==3.3.1 \
+  --platform manylinux2014_x86_64 \
+  --python-version 311 \
+  --implementation cp \
+  --only-binary=:all: \
+  -t package/`
 
-pip install -r requirements.txt
+- pull pygeohash main folder out package and place folder in top level (same level as lambda_function.py)
+- delete the package folder
 
-**geohash2 dependency for lambda**
-python3 -m venv .venv
-
-source .venv/bin/activate
-
-pip install -r requirements.txt -t package/
-
-pull geohash2 main folder out package and place folder in top level (same level as lambda_function.py)
-delete the package folder
+##Lambda Setup
+-python 313 runtime not 315 as pygeohash has issues
 
 ## Notable config
 - fuelStationGeoHashPrecision = 5 # matching https://github.com/CodeandCorners/AWSLambda-FuelFinderStationStore
