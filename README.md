@@ -4,17 +4,28 @@
 
 - and then return < 20 events to the user ordered cheapest  THEN closest
 
-Expects body from API Gateway POST event. 
-Expected x-api-key set with configured value
+## Request 
+- Expects body from API Gateway POST event. 
+- Expected x-api-key set with configured value
 
 
-Example body:
+- Example body:
 ```
 {
     "longitude": 123.2
     "latitude": "123.1
 }
 
+```
+```bash
+curl -X POST \
+  "https://abc123.execute-api.eu-west-2.amazonaws.com/fuel-prices" \
+  -H "Content-Type: application/json" \
+  -H "x-api-key: YOUR_API_KEY" \
+  -d '{
+    "latitude": 51.5074,
+    "longitude": -0.1278
+  }'
 ```
 ## Lambda Setup
 - python 313 runtime not 315 as pygeohash has issues
@@ -53,6 +64,19 @@ Example body:
 			    "ARN of table/index/geohash-index"
 				
 				]
+		}
+	]
+}
+```
+- Create inline policy for secret access
+```{
+	"Version": "2012-10-17",
+	"Statement": [
+		{
+			"Sid": "ReadFuelFinderAPISecret",
+			"Effect": "Allow",
+			"Action": "secretsmanager:GetSecretValue",
+			"Resource": "ARN of secret here"
 		}
 	]
 }
