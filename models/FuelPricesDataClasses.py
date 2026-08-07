@@ -1,5 +1,6 @@
 from dataclasses import dataclass
 from decimal import Decimal
+from models.Enums import FuelTypeEnum
 
 
 @dataclass
@@ -13,3 +14,10 @@ class FuelPrice:
     hvoPrice: Decimal | None
     createdAt: int
     ttl: int
+
+
+@dataclass
+class FuelPriceFound:
+    id: str
+    fuelType: FuelTypeEnum
+    fuelPrice: Decimal
