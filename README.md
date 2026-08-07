@@ -145,5 +145,5 @@ curl -X POST \
 - limitForFuelStationsOnResponse = 20 #  No more than 20 fuel station responses returned
 
 ## TODO 
-- add fuel type to request, and create new methods to return closest of that fuel type rather than defaulting to E10
-- Test 5 point precision, is it the correct amount for insert and query?
+- Take into account different geohashes? perhaps store more? allow user to search further afield. Currently it seems to return stations ~5 miles away as the crow flies
+- Take into account opening times
