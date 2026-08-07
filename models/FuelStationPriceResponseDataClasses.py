@@ -1,8 +1,7 @@
 from dataclasses import dataclass
 from decimal import Decimal
-from models.FuelPricesDataClasses import FuelPrice
+from models.FuelPricesDataClasses import FuelPriceFound
 from models.FuelStationDataClasses import FuelStationWithDistance
-from models.RequestDataClasses import FuelTypeRequest
 
 @dataclass
 class FuelTypeAndPrice:
@@ -25,8 +24,7 @@ class FuelStationPriceResponse:
 # Finish this, 
 def toFuelStationPriceResponse(
     stationWithDistance: FuelStationWithDistance,
-    fuelPrice: FuelPrice,
-    fuelType: FuelTypeRequest) -> FuelStationPriceResponse:
+    fuelPriceFound: FuelPriceFound) -> FuelStationPriceResponse:
 
     station = stationWithDistance.fuelStation
 
@@ -34,8 +32,8 @@ def toFuelStationPriceResponse(
         id=station.id,
         nameOfStation=station.name,
         fuelTypeAndPrice=FuelTypeAndPrice(
-            fuelType="E10",
-            price=fuelPrice.e10Price
+            fuelType=fuelPriceFound.fuelType,
+            price=fuelPriceFound.fuelPrice
         ),
         longitude=station.location.longitude,
         latitude=station.location.latitude,
